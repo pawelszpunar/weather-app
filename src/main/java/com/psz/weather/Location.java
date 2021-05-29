@@ -15,7 +15,7 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "city") // todo you can use this -> nullable = false
+    @Column(name = "city")
     private String city;
     @Column(name = "longitude")
     private Float longitude;
