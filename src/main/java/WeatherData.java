@@ -13,6 +13,15 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class WeatherData {
 
+    public WeatherData(Integer temperature, Integer pressure, Integer humidity, Integer windSpeed, Integer windDegree, Integer localization_id) {
+        this.temperature = temperature;
+        this.pressure = pressure;
+        this.humidity = humidity;
+        this.windSpeed = windSpeed;
+        this.windDegree = windDegree;
+        this.localization_id = localization_id;
+    }
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -31,5 +40,8 @@ public class WeatherData {
 
     @Column(name = "wind_degree")
     private  Integer windDegree;
+
+    @Column(name = "localization_id")
+    private Integer localization_id;
 
 }
