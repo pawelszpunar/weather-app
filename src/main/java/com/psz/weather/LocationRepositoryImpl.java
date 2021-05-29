@@ -1,3 +1,5 @@
+package com.psz.weather;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -5,11 +7,11 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-public class LocalizationRepository {
+public class LocationRepositoryImpl implements LocationRepository{
 
     private SessionFactory sessionFactory;
 
-    public LocalizationRepository() {
+    public LocationRepositoryImpl() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -19,12 +21,13 @@ public class LocalizationRepository {
                 .buildSessionFactory();
     }
 
-    public Localization save(Localization localization) {
+    @Override
+    public Location save(Location location) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.persist(localization);
+        session.persist(location);
         transaction.commit();
         session.close();
-        return localization;
+        return location;
     }
 }

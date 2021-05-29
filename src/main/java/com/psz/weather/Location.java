@@ -1,7 +1,8 @@
+package com.psz.weather;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.*;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Localization {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,15 +18,15 @@ public class Localization {
     @Column(name = "city") // todo you can use this -> nullable = false
     private String city;
     @Column(name = "longitude")
-    private Integer longitude;
+    private Float longitude;
     @Column(name = "latitude")
-    private Integer latitude;
+    private Float latitude;
     @Column(name = "region")
     private String region;
     @Column(name = "country")
     private String country;
 
-    public Localization(String city, Integer longitude, Integer latitude, String region, String country) {
+    public Location(String city, Float longitude, Float latitude, String region, String country) {
         this.city = city;
         this.longitude = longitude;
         this.latitude = latitude;
