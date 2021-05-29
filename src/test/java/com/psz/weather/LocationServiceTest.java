@@ -163,4 +163,12 @@ class LocationServiceTest {
         assertThat(location.getRegion()).isNull();
         assertThat(location.getCountry()).isEqualTo("country");
     }
+
+    @Test
+    public void empty_database() {
+        //when
+        Throwable result = catchThrowable(() -> locationService.getAllLocations());
+        //then
+        assertThat(result).isExactlyInstanceOf(RuntimeException.class);
+    }
 }

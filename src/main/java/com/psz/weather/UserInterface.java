@@ -16,11 +16,15 @@ public class UserInterface {
         while (true) {
             System.out.println("Welcome to the Weather app, what do you want to do?");
             System.out.println("1. Add a new location");
+            System.out.println("2. Show available locations");
             System.out.println("0. Close the application");
             int response = scanner.nextInt();
             switch (response) {
                 case 1:
                     addNewLocation();
+                    break;
+                case 2:
+                    getAllLocations();
                     break;
                 case 0:
                     return;
@@ -44,5 +48,10 @@ public class UserInterface {
 
         String httpResponse = locationController.createNewLocalization(city, longitude, latitude, region, country);
         System.out.println("Server response: " + httpResponse);
+    }
+
+    private void getAllLocations() {
+        String result = locationController.getAllLocations();
+        System.out.println("Available locations:\n" + result);
     }
 }
