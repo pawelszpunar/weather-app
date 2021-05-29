@@ -1,11 +1,18 @@
 package com.psz.weather;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class LocationService {
 
-    private LocationRepository locationRepository;   // todo use DependencyInversion <- DONE
+    private final LocationRepository locationRepository;   // todo use DependencyInversion <- DONE
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    public LocationService() {
+    public LocationService(LocationRepository locationRepository) {
+        this.locationRepository = locationRepository;
+        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
+
 
     public Location createNewLocation(String city, Float longitude, Float latitude, String region, String country) {
         if (city == null || city.isBlank()) { // todo "   " .isBlank()
@@ -21,14 +28,16 @@ public class LocationService {
             throw new RuntimeException("country nie moze byc pusty");
         }
 
-        Location location = new Location(city, longitude, latitude, null, country);
-        if(region != null || !region.isBlank()) {
+        Location location = new Location(null, city, longitude, latitude, null, country);
+        if(region.isBlank()) {
+            location.setRegion(null);
+        } else {
             location.setRegion(region);
         }
 
         // todo if region is null or blank ("    ") don't save that value
         // todo you have to save location to your database, so you can use localizationRepository
 
-        return location;
+        return locationRepository.save(location);
     }
 }
