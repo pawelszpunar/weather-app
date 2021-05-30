@@ -3,6 +3,7 @@ package com.psz.weather;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class LocationRepositoryMock implements LocationRepository {
 
@@ -18,5 +19,12 @@ public class LocationRepositoryMock implements LocationRepository {
     @Override
     public List<Location> getLocations() {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Optional<Location> findById(Integer id) {
+        return locations.stream()
+                .filter(l -> l.getId().equals(id))
+                .findFirst();
     }
 }
