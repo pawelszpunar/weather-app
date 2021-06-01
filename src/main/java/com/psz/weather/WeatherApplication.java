@@ -19,7 +19,12 @@ public class WeatherApplication {
         LocationRepositoryImpl locationRepositoryImpl = new LocationRepositoryImpl(sessionFactory);
         LocationService locationService = new LocationService(locationRepositoryImpl);
         LocationController locationController = new LocationController(locationService);
-        UserInterface userInterface = new UserInterface(locationController);
+
+        ForecastRepositoryImpl forecastRepositoryImpl = new ForecastRepositoryImpl(sessionFactory);
+        ForecastService forecastService = new ForecastService(forecastRepositoryImpl, locationRepositoryImpl);
+        ForecastController forecastController = new ForecastController(forecastService);
+
+        UserInterface userInterface = new UserInterface(locationController, forecastController);
         userInterface.run();
     }
 }

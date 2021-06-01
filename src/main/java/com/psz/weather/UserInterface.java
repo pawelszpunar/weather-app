@@ -4,9 +4,12 @@ import java.util.Scanner;
 
 public class UserInterface {
     private final LocationController locationController;
+    private final ForecastController forecastController;
 
-    public UserInterface(LocationController locationController) {
+
+    public UserInterface(LocationController locationController, ForecastController forecastController) {
         this.locationController = locationController;
+        this.forecastController = forecastController;
     }
 
     public void run() {
@@ -17,6 +20,7 @@ public class UserInterface {
             System.out.println("Welcome to the Weather app, what do you want to do?");
             System.out.println("1. Add a new location");
             System.out.println("2. Show available locations");
+            System.out.println("3. Get weather forecast");
             System.out.println("0. Close the application");
             int response = scanner.nextInt();
             switch (response) {
@@ -26,6 +30,8 @@ public class UserInterface {
                 case 2:
                     getAllLocations();
                     break;
+                case 3:
+//                    getForecast();
                 case 0:
                     return;
             }
@@ -54,4 +60,8 @@ public class UserInterface {
         String result = locationController.getAllLocations();
         System.out.println("Available locations:\n" + result);
     }
+
+//    private void getForecast() {
+//        String result = forecastController.getForecast();
+//    }
 }

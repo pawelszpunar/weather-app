@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity(name = "forecast")
 @Data
@@ -23,6 +24,7 @@ public class Forecast {
     private Double humidity;
     private Double windSpeed;
     private Double windDeg;
+    private LocalDate localDate;
 
     @ManyToOne
     private Location location;

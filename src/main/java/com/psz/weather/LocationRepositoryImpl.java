@@ -40,9 +40,16 @@ public class LocationRepositoryImpl implements LocationRepository{
 
     @Override
     public Optional<Location> findById(Integer id) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Location location = session.createQuery("SELECT loc FROM localization loc WHERE loc.id = :id", Location.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        transaction.commit();
+        session.close();
 
-        //todo to implement
-        return Optional.empty();
+        //todo to implement -> implemented
+        return Optional.of(location);
     }
 
 }
