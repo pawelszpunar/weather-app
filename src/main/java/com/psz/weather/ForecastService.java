@@ -27,11 +27,13 @@ public class ForecastService {
 
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Nie ma takiej lokalizacji o id " + locationId));
-        LocalDate forecastDay = LocalDate.now().plusDays(date);
+        LocalDate forecastDate = LocalDate.now().plusDays(date);
 
-        if (forecastRepository.getForecastByLocationAndDate(location, forecastDay).isPresent()) {
-            return forecastRepository.getForecastByLocationAndDate(location, forecastDay).get();
+        if (forecastRepository.getForecastByLocationAndDate(location, forecastDate).isPresent()) {
+            System.out.println("Forecast found in database!");
+            return forecastRepository.getForecastByLocationAndDate(location, forecastDate).get();
         } else {
+            System.out.println("Forecast is not in database. Connecting to server.");
 
 
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -47,7 +49,7 @@ public class ForecastService {
                 ForecastResponseDTO forecastResponseDTO = objectMapper.readValue(responseBody, ForecastResponseDTO.class);
 
                 Forecast forecast = forecastResponseDTO.getDaily().stream()
-                        .filter(s -> s.getDate().equals(forecastDay))
+                        .filter(s -> s.getDate().equals(forecastDate))
                         .findFirst()
                         .map(s -> Forecast.builder()
                                 .temperature(s.getTemperature().getCelsius())
@@ -56,9 +58,9 @@ public class ForecastService {
                                 .windDeg(s.getWindDeg())
                                 .humidity(s.getHumidity()).location(location)
                                 .build())
-                        .orElseThrow(() -> new RuntimeException("Nie znaleziono pogody dla podanej daty"));
+                        .orElseThrow(() -> new RuntimeException("No weather found for the given date!"));
 
-                forecast.setLocalDate(forecastDay);
+                forecast.setLocalDate(forecastDate);
                 forecastRepository.saveForecast(forecast);
 
                 return forecast;

@@ -8,5 +8,6 @@
         <property name="connection.url">jdbc:mysql://localhost:3306/LocationAppDB</property>
         <property name="hbm2ddl.auto">update</property>
         <mapping class="com.psz.weather.Location"/>
+        <mapping class="com.psz.weather.Forecast"/>
     </session-factory>
 </hibernate-configuration>

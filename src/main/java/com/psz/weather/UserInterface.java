@@ -31,7 +31,7 @@ public class UserInterface {
                     getAllLocations();
                     break;
                 case 3:
-//                    getForecast();
+                    getForecast();
                 case 0:
                     return;
             }
@@ -61,7 +61,13 @@ public class UserInterface {
         System.out.println("Available locations:\n" + result);
     }
 
-//    private void getForecast() {
-//        String result = forecastController.getForecast();
-//    }
+    private void getForecast() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Location id: ");
+        Integer locationId = scanner.nextInt();
+        System.out.println("Date (0 - today, 1 - tomorrow ... etc up to 7): ");
+        Integer date = scanner.nextInt();
+        String result = forecastController.getForecast(locationId, date);
+        System.out.println("Server response: " + result);
+    }
 }

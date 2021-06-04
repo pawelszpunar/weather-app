@@ -20,22 +20,30 @@ public class ForecastRepositoryImpl implements ForecastRepository{
 
     @Override
     public Optional<Forecast> getForecastByLocationAndDate(Location location, LocalDate localDate) {
-        session = sessionFactory.openSession();
-        transaction = session.beginTransaction();
 
-        Forecast forecast = session.createQuery("SELECT f FROM forecast f INNER JOIN location l WHERE l.id = :locationId AND f.localDate = :localDate", Forecast.class)
-                .setParameter("locationId", location.getId())
-                .setParameter("localDate", localDate)
-                .getSingleResult();
+        try {
+            session = sessionFactory.openSession();
 
-        transaction.commit();
-        session.close();
+            Forecast forecast = session.createQuery("SELECT f FROM Forecast f WHERE f.location.id = :locationId AND f.localDate = :localDate", Forecast.class)
+                    .setParameter("locationId", location.getId())
+                    .setParameter("localDate", localDate)
+                    .getSingleResult();
 
-        return Optional.of(forecast);
+            //System.out.println("Forecast found in database: [ " + forecast + " ]");
+
+            session.close();
+
+            return Optional.of(forecast);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+
+
     }
 
     @Override
     public Forecast saveForecast(Forecast forecast) {
+        System.out.println("Saving forecast to database!");
         session = sessionFactory.openSession();
         transaction = session.beginTransaction();
         session.persist(forecast);
