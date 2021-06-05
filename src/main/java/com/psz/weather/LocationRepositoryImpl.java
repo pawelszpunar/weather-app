@@ -48,7 +48,6 @@ public class LocationRepositoryImpl implements LocationRepository{
         transaction.commit();
         session.close();
 
-        //todo to implement -> implemented
         return Optional.of(location);
     }
 

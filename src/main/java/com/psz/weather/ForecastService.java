@@ -22,7 +22,7 @@ public class ForecastService {
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    ;
+
     public Forecast getForecast(Integer locationId, Integer date) {
 
         Location location = locationRepository.findById(locationId)
@@ -39,7 +39,6 @@ public class ForecastService {
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .GET()
-                    // todo sparametryzować uri
                     .uri(URI.create("https://api.openweathermap.org/data/2.5/onecall?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&exclude=minutely,hourly&appid=1766fdc82c622688913c1bb885b9bd94"))
                     .build();
             try {
@@ -56,7 +55,8 @@ public class ForecastService {
                                 .pressure(s.getPressure())
                                 .windSpeed(s.getWindSpeed())
                                 .windDeg(s.getWindDeg())
-                                .humidity(s.getHumidity()).location(location)
+                                .humidity(s.getHumidity())
+                                .location(location)
                                 .build())
                         .orElseThrow(() -> new RuntimeException("No weather found for the given date!"));
 
@@ -67,8 +67,6 @@ public class ForecastService {
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
-
-
         }
     }
 }
